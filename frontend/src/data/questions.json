@@ -1,0 +1,59 @@
+{
+  "chapters": [
+    {
+      "id": 1,
+      "name": "Chapter 1: The Beginning",
+      "questions": [
+        {
+          "id": 1,
+          "title": "The Mysterious Letter",
+          "description": "You've received a letter with strange symbols. Can you decipher it?",
+          "hint": "Look for patterns in the symbols.",
+          "answer": "ELEMENTARY"
+        },
+        {
+          "id": 2,
+          "title": "Hidden in Plain Sight",
+          "description": "There's a message hidden in this image. Can you find it?",
+          "hint": "Try adjusting the contrast and brightness.",
+          "answer": "SHERLOCK"
+        },
+        {
+          "id": 3,
+          "title": "The Coded Message",
+          "description": "Decode this message: 3-15-14-7-18-1-20-21-12-1-20-9-15-14-19",
+          "hint": "Each number represents a letter's position in the alphabet.",
+          "answer": "CONGRATULATIONS"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Chapter 2: The Plot Thickens",
+      "questions": [
+        {
+          "id": 4,
+          "title": "The Cipher Wheel",
+          "description": "Use the provided cipher wheel to decode the message.",
+          "hint": "Align the outer wheel with the inner wheel based on the key provided.",
+          "answer": "THEGAMEISONWATSON"
+        },
+        {
+          "id": 5,
+          "title": "The Missing Piece",
+          "description": "Find the missing piece in this puzzle to reveal the hidden message.",
+          "hint": "Pay attention to the shapes and patterns.",
+          "answer": "ELEMENTARYMYDEARWATSON"
+        },
+        {
+          "id": 6,
+          "title": "The Encrypted File",
+          "description": "Decrypt this file using the password hidden in the previous answers.",
+          "hint": "Combine the first letters of the previous answers.",
+          "answer": "BAKERSTREET"
+        }
+      ]
+    }
+  ]
+}
+
