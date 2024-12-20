@@ -19,20 +19,37 @@ const ConnectingPaths = ({ islands, unlockedLevel }) => {
         const nextIsland = islands[index + 1];
         const isUnlocked = island.id <= unlockedLevel; // Check if the level is unlocked
 
+        // Calculate the distance between islands
+        const x1 = island.x + 10;
+        const y1 = island.y + 10;
+        const x2 = nextIsland.x + 10;
+        const y2 = nextIsland.y + 20;
+
+        // Calculate the number of steps (footprints) based on distance
+        const numFootprints = Math.floor(Math.hypot(x2 - x1, y2 - y1) / 5);  // Adjust the divisor to control spacing between steps
+        const stepX = (x2 - x1) / numFootprints;
+        const stepY = (y2 - y1) / numFootprints;
+
         return (
           <g key={island.id}>
-            {/* Dotted line path between the islands with separate line and glow colors */}
-            <line
-              x1={`${island.x + 10}%`}  // Shift horizontally by 10
-              y1={`${island.y + 10}%`}  // Shift vertically by 10
-              x2={`${nextIsland.x + 10}%`}  // Shift horizontally by 10
-              y2={`${nextIsland.y + 20}%`}  // Shift vertically by 20
-              stroke="#150501"  // Line color (dark red)
-              strokeWidth="5"
-              strokeDasharray="10,10"  // Create the dotted effect
-              filter="url(#glow)"  // Apply the glow filter
-              className="transition-all duration-300 opacity-100 -z-10"
-            />
+            {/* Footsteps along the path */}
+            {Array.from({ length: numFootprints }).map((_, i) => {
+              const x = x1 + stepX * i;
+              const y = y1 + stepY * i;
+
+              return (
+                <image
+                  key={i}
+                  x={`${x}%`}  // Position footprint along the path
+                  y={`${y}%`}  // Position footprint along the path
+                  width="5%"  // Adjust size of the footprints
+                  height="5%"  // Adjust size of the footprints
+                  href="../../public/path.png"  // Image source
+                  className="transition-all duration-300 opacity-100 -z-10"
+                  style={{ filter: 'url(#glow)' }}  // Apply the glow filter
+                />
+              );
+            })}
           </g>
         );
       })}

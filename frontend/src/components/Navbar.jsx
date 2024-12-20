@@ -12,6 +12,7 @@ function Navbar() {
         <ul className="flex space-x-4">
           <li><Link to="/" className="text-white hover:text-gray-300">Home</Link></li>
           <li><Link to="/leaderboard" className="text-white hover:text-gray-300">Leaderboard</Link></li>
+          <li><Link to="/level" className="text-white hover:text-gray-300">Map</Link></li>
         </ul>
       </div>
     </nav>

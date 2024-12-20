@@ -68,7 +68,7 @@ function LevelModal({ location, onClose }) {
       <div
         className="w-[80em] h-[80em] bg-contain mt-80 bg-no-repeat bg-center relative transition-transform duration-200 ease-in-out"
         style={{
-          backgroundImage: "url('/scroll.png')",
+          backgroundImage: "url('../../public/paper.png')",
         }}
       >
         {/* Cross button to close modal */}

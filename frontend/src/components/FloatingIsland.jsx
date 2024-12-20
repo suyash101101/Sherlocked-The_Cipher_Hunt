@@ -72,9 +72,9 @@ const FloatingIsland = ({
         />
         {/* Level image with enhanced 3D rotating effect */}
         <div
-          className="w-80 h-80 bg-contain bg-no-repeat bg-center relative transition-transform duration-200 ease-in-out"
+          className="w-60 h-60 bg-contain bg-no-repeat bg-center relative transition-transform duration-200 ease-in-out"
           style={{
-            backgroundImage: "url('/level1.png')",
+            backgroundImage: "url('/221b.png')",
             transform: `rotateX(${isMouseMoved ? mousePosition.rotateX : 0}deg) rotateY(${isMouseMoved ? mousePosition.rotateY : 0}deg)`,
             transition: "transform 0.3s ease-out", // Smooth transition when returning to original state
           }}

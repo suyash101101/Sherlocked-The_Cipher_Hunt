@@ -3,13 +3,13 @@ import Layout from './components/Layout';
 import Home from './Pages/Home';
 import Level from './Pages/Level';
 import Preloader from './components/Preloader';
+import Leaderboard from './Pages/Leaderboard';
 import { useState, useEffect } from 'react';
 
 function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading time
     const timer = setTimeout(() => setLoading(false), 3000);
     return () => clearTimeout(timer);
   }, []);
@@ -24,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/level" element={<Level />} />
+          <Route path='/leaderboard' element={<Leaderboard/>}/>
         </Routes>
       </Layout>
     </Router>
