@@ -61,7 +61,7 @@ const FloatingIsland = ({
       >
         {/* Glowing effect behind the level image */}
         <div
-          className="absolute inset-0 bg-orange-700 opacity-40 blur-3xl rounded-full"
+          className="absolute inset-0 bg-orange-700 opacity-80 blur-3xl rounded-full"
           style={{
             top: 0,
             left: 0,
