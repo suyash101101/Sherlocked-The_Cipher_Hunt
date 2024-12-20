@@ -1,35 +1,76 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, {useState} from 'react'
+import {supabase} from './client';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+
+  const [formData,setFormData] = useState({
+    fullName: '',email:'',password:''
+  })
+
+  console.log(formData)
+
+  function handleChange(event){
+    setFormData((prevFormData)=>{
+      return{
+        ...prevFormData,
+        [event.target.name]:event.target.value
+      }
+
+    })
+  }
+
+  async function handleSubmit(e){
+    e.preventDefault()
+
+    try {
+      const { data, error } = await supabase.auth.signUp(
+        {
+          email: formData.email,
+          password: formData.password,
+          options: {
+            data: {
+              full_name: formData.fullName,
+            }
+          }
+        }
+      )
+      alert('Hello Sherlock ! Look into your inbox ')
+
+    } catch (error) {
+      console.error('Error signing up:', error.message);
+      alert(error.message || 'An unknown error occured');
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input 
+          placeholder='Fullname'
+          name='fullName'
+          onChange={handleChange}
+        />
+
+        <input 
+          placeholder='Email'
+          name='email'
+          onChange={handleChange}
+        />
+
+        <input
+          placeholder='Password'
+          name='password'
+          type="password"
+          onChange={handleChange}
+        />
+
+        <button type='submit'>
+          Submit
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      </form>
+    </div>
   )
 }
 
-export default App
+export default App 
