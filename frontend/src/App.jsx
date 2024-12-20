@@ -1,76 +1,35 @@
-import React, {useState} from 'react'
-import {supabase} from './client';
+import React, {useState, useEffect} from 'react';
+import {SignUp, login, Homepage} from './pages';
+import {Routes, Route} from 'react-router-dom';
+
 
 const App = () => {
 
-  const [formData,setFormData] = useState({
-    fullName: '',email:'',password:''
-  })
+  const [token, setToken] = useState(false)
 
-  console.log(formData)
-
-  function handleChange(event){
-    setFormData((prevFormData)=>{
-      return{
-        ...prevFormData,
-        [event.target.name]:event.target.value
-      }
-
-    })
+  if(token){
+    sessionStorage.setItem('token',token,JSON.stringify(token))
   }
 
-  async function handleSubmit(e){
-    e.preventDefault()
-
-    try {
-      const { data, error } = await supabase.auth.signUp(
-        {
-          email: formData.email,
-          password: formData.password,
-          options: {
-            data: {
-              full_name: formData.fullName,
-            }
-          }
-        }
-      )
-      alert('Hello Sherlock ! Look into your inbox ')
-
-    } catch (error) {
-      console.error('Error signing up:', error.message);
-      alert(error.message || 'An unknown error occured');
+  useEffect(() => {
+    if(sessionStorage.getItem('token')){
+      let data = JSON.parse(sessionStorage.getItem('token'))
+      setToken(data)
     }
-  }
+
+  }, [])
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input 
-          placeholder='Fullname'
-          name='fullName'
-          onChange={handleChange}
-        />
+      <Routes>
+        <Route path={'/signup'} element={<SignUp/>} />
+        <Route path={'/'} element={ <login setToken={setToken}/>} />
+        (token?<Route path={'/homepage'} element={<Homepage token={token}/>} />:"")
+      </Routes>
+      
 
-        <input 
-          placeholder='Email'
-          name='email'
-          onChange={handleChange}
-        />
-
-        <input
-          placeholder='Password'
-          name='password'
-          type="password"
-          onChange={handleChange}
-        />
-
-        <button type='submit'>
-          Submit
-        </button>
-
-      </form>
     </div>
   )
 }
 
-export default App 
+export default App
