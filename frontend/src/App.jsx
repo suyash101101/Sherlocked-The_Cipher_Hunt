@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './Pages/Home';
+import Level from './Pages/Level';
 import Preloader from './components/Preloader';
 import { useState, useEffect } from 'react';
 
@@ -22,6 +23,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/level" element={<Level />} />
         </Routes>
       </Layout>
     </Router>
