@@ -72,7 +72,7 @@ const FloatingIsland = ({
         />
         {/* Level image with enhanced 3D rotating effect */}
         <div
-          className="w-60 h-60 bg-contain bg-no-repeat bg-center relative transition-transform duration-200 ease-in-out"
+          className="lg:w-60 lg:h-60 md:w-40 md:h-40 w-40 h-40 bg-contain bg-no-repeat bg-center relative transition-transform duration-200 ease-in-out"
           style={{
             backgroundImage: "url('/221b.png')",
             transform: `rotateX(${isMouseMoved ? mousePosition.rotateX : 0}deg) rotateY(${isMouseMoved ? mousePosition.rotateY : 0}deg)`,
@@ -86,7 +86,7 @@ const FloatingIsland = ({
             <img
               src="/lock.png" // Replace with the actual path to your image
               alt="Locked Icon"
-              className="w-40 h-40 " // Adjust width and height as needed
+              className="lg:w-40 lg:h-40 md:w-28 md:h-28 w-20 h-20 " // Adjust width and height as needed
             />
           </div>
         )}

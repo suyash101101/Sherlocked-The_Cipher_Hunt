@@ -43,8 +43,8 @@ function LevelModal({ location, onClose }) {
     if (currentAttempts >= MAX_ATTEMPTS || solvedQuestions.has(selectedQuestion.id)) return; // Lock question if attempts exceed limit or already solved
 
     if (
-      userAnswer.trim().toLowerCase() ===
-      selectedQuestion.answer.trim().toLowerCase()
+      userAnswer ===
+      selectedQuestion.answer
     ) {
       setSolvedQuestions((prev) => {
         const updatedSolved = new Set(prev);
@@ -66,36 +66,36 @@ function LevelModal({ location, onClose }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex justify-center items-center">
       <div
-        className="w-[80em] h-[80em] bg-contain mt-80 bg-no-repeat bg-center relative transition-transform duration-200 ease-in-out"
+        className="lg:w-[70em] lg:h-[70em] lg:mt-80 md:w-[45em] md:h-[45em] sm:w-[35em] sm:h-[35em] w-[30em] h-[30em] bg-contain  bg-no-repeat bg-center relative transition-transform duration-200 ease-in-out"
         style={{
-          backgroundImage: "url('../../public/paper.png')",
+          backgroundImage: "url('/scroll.png')",
         }}
       >
         {/* Cross button to close modal */}
         <button
-          className="absolute right-32 mt-48 text-orange-950 text-3xl font-extrabold"
+          className="absolute lg:right-32 md:right-20 lg:mt-40 md:mt-28 mt-16 right-16 text-orange-950 text-3xl font-extrabold"
           onClick={onClose}
         >
           &times;
         </button>
 
-        <div className="flex flex-col items-center mt-72">
+        <div className="flex flex-col items-center lg:mt-64 md:mt-40 sm:mt-28 mt-24">
           {/* Chapter title or Question title */}
-          <h2 className="text-5xl font-extrabold text-orange-950 mb-4">
+          <h2 className="md:text-4xl text-xl font-extrabold text-orange-950 ">
             {selectedQuestion ? selectedQuestion.title : chapter?.name}
           </h2>
 
           {/* Questions list */}
           {isQuestionsVisible && (
-            <div className="questions-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-96 overflow-y-auto p-4 mt-4 rounded-lg">
+            <div className="questions-container grid grid-cols-3 md:grid-cols-3 lg:gap-2 gap-1 max-h-96 overflow-y-auto p-4 md:mt-2 mt-0 rounded-lg">
               {chapter?.questions.map((question) => (
                 <div key={question.id} className="cursor-pointer">
                   <div
-                    className="p-4 bg-orange-800 text-2xl text-white rounded-md hover:bg-yellow-500 hover:scale-105 transition-all"
+                    className="lg:p-3 md:px-3 md:py-1 p-1 bg-orange-800 lg:text-3xl md:text-base text-xs text-white rounded-md hover:bg-yellow-500 hover:scale-105 transition-all"
                     onClick={() => handleQuestionClick(question)}
                   >
-                    <h4 className="font-medium">{question.title}</h4>
-                    <p>
+                    <h4 className="lg:text-2xl md:text-sm sm:text-sm">{question.title}</h4>
+                    <p className="lg:text-lg md:text-xs sm:text-xs">
                       Points: {question.points}{" "}
                       {solvedQuestions.has(question.id) && (
                         <FiCheckCircle className="inline text-green-500 ml-2" />
@@ -158,7 +158,7 @@ function LevelModal({ location, onClose }) {
           )}
 
           {/* Total Score */}
-          <div className="mt-8 text-yellow-500 text-3xl font-bold">
+          <div className="lg:mt-0 mt-[-1em] text-orange-950 lg:text-2xl text-sm font-bold">
             Total Score: {totalScore}
           </div>
         </div>

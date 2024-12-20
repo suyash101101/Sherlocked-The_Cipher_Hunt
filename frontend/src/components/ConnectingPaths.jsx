@@ -20,15 +20,21 @@ const ConnectingPaths = ({ islands, unlockedLevel }) => {
         const isUnlocked = island.id <= unlockedLevel; // Check if the level is unlocked
 
         // Calculate the distance between islands
-        const x1 = island.x + 10;
-        const y1 = island.y + 10;
-        const x2 = nextIsland.x + 10;
-        const y2 = nextIsland.y + 20;
+        const x1 = island.x + 5;
+        const y1 = island.y + 3;
+        const x2 = nextIsland.x + 5;
+        const y2 = nextIsland.y + 5;
 
         // Calculate the number of steps (footprints) based on distance
         const numFootprints = Math.floor(Math.hypot(x2 - x1, y2 - y1) / 5);  // Adjust the divisor to control spacing between steps
         const stepX = (x2 - x1) / numFootprints;
         const stepY = (y2 - y1) / numFootprints;
+
+        // Calculate the angle between the islands
+        const angle = Math.atan2(y2 - y1, x2 - x1);  // Angle in radians
+
+        // Convert radians to degrees
+        const angleInDegrees = (angle * 180) / Math.PI;
 
         return (
           <g key={island.id}>
@@ -39,6 +45,7 @@ const ConnectingPaths = ({ islands, unlockedLevel }) => {
 
               return (
                 <image
+                
                   key={i}
                   x={`${x}%`}  // Position footprint along the path
                   y={`${y}%`}  // Position footprint along the path
@@ -46,7 +53,7 @@ const ConnectingPaths = ({ islands, unlockedLevel }) => {
                   height="5%"  // Adjust size of the footprints
                   href="../../public/path.png"  // Image source
                   className="transition-all duration-300 opacity-100 -z-10"
-                  style={{ filter: 'url(#glow)' }}  // Apply the glow filter
+                  
                 />
               );
             })}

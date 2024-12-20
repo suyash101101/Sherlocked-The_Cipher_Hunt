@@ -6,11 +6,11 @@ import ConnectingPaths from '../components/ConnectingPaths';
 import LevelModal from '../components/LevelModal';  // Import the LevelModal component
 
 const islands = [
-  { id: 1, name: "Baker Street", x: 3, y: 10 },
-  { id: 2, name: "Scotland Yard", x: 20, y: 55 },
-  { id: 3, name: "British Museum", x: 43, y: 14},
-  { id: 4, name: "Tower Bridge", x: 60, y: 56 },
-  { id: 5, name: "Buckingham Palace", x: 72, y: 12 },
+  { id: 1, name: "Baker Street", x: 5, y: 10 },
+  { id: 2, name: "Scotland Yard", x: 15, y: 65 },
+  { id: 3, name: "British Museum", x: 38, y: 20},
+  { id: 4, name: "Tower Bridge", x: 55, y: 76 },
+  { id: 5, name: "Buckingham Palace", x: 70, y: 22 },
 ];
 
 const unlockThresholds = [0, 100, 200, 300, 400];  // Example score thresholds for each level
@@ -35,7 +35,7 @@ export default function Level() {
   };
 
   return (
-    <div className="sherlock-background bg-[url('https://static.vecteezy.com/system/resources/previews/036/105/309/non_2x/ai-generated-vintage-map-of-the-world-on-the-old-paper-background-sepia-tone-ai-generated-free-photo.jpg')] bg-no-repeat bg-cover bg-center object-cover relative h-auto max-w-full">
+    <div className="sherlock-background bg-[url('https://static.vecteezy.com/system/resources/previews/036/105/309/non_2x/ai-generated-vintage-map-of-the-world-on-the-old-paper-background-sepia-tone-ai-generated-free-photo.jpg')] bg-no-repeat bg-cover bg-center object-cover relative h-[85em] lg:h-[90em]">
       <div className="absolute inset-0 bg-black bg-opacity-50" />
       <ScoreBoard score={score} />
       <main className="relative z-10 h-screen">
@@ -56,7 +56,7 @@ export default function Level() {
           );
         })}
 
-        <DetectiveBobblehead level={unlockedLevel} islands={islands} />
+        {/* <DetectiveBobblehead level={unlockedLevel} islands={islands} /> */}
       </main>
 
       {/* Modal logic */}
