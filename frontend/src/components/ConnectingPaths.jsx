@@ -26,7 +26,7 @@ const ConnectingPaths = ({ islands, unlockedLevel }) => {
         const y2 = nextIsland.y + 5;
 
         // Calculate the number of steps (footprints) based on distance
-        const numFootprints = Math.floor(Math.hypot(x2 - x1, y2 - y1) / 5);  // Adjust the divisor to control spacing between steps
+        const numFootprints = Math.floor(Math.hypot(x2 - x1, y2 - y1) / 7);  // Adjust the divisor to control spacing between steps
         const stepX = (x2 - x1) / numFootprints;
         const stepY = (y2 - y1) / numFootprints;
 
@@ -51,8 +51,8 @@ const ConnectingPaths = ({ islands, unlockedLevel }) => {
                   y={`${y}%`}  // Position footprint along the path
                   width="5%"  // Adjust size of the footprints
                   height="5%"  // Adjust size of the footprints
-                  href="../../public/path.png"  // Image source
-                  className="transition-all duration-300 opacity-100 -z-10"
+                  href="/path.png"  // Image source
+                  className="transition-all duration-300 opacity-50 -z-10"
                   
                 />
               );
