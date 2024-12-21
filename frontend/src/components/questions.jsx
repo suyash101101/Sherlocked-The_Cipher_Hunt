@@ -10,7 +10,7 @@ function Questions({ chapterId, onQuestionSelect, teamId }) {
       try {
         const { data: questionsData, error: questionsError } = await supabase
           .from("questions")
-          .select("id, title, points")
+          .select("id, title, points, description")
           .eq("chapter_id", chapterId);
 
         if (questionsError) throw questionsError;
