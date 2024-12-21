@@ -12,7 +12,7 @@ function LevelModal({ location, onClose }) {
   const [totalScore, setTotalScore] = useState(0);
 
   const MAX_ATTEMPTS = 100;
-
+  const userId = 1;
   // Fetch chapter name
   useEffect(() => {
     const fetchChapterName = async () => {
@@ -40,7 +40,7 @@ function LevelModal({ location, onClose }) {
       const { data, error } = await supabase
         .from("leaderboard")
         .select("total_score")
-        .eq("id", 1) // Replace with the user’s ID condition
+        .eq("id", userId) // Replace with the user’s ID condition
         .single();
 
       if (error) throw error;
@@ -56,7 +56,7 @@ function LevelModal({ location, onClose }) {
       const { error } = await supabase
         .from("leaderboard")
         .update({ total_score: newScore })
-        .eq("id", 1); // Replace with the user’s ID condition
+        .eq("id", userId); // Replace with the user’s ID condition
 
       if (error) throw error;
     } catch (err) {
@@ -107,6 +107,21 @@ function LevelModal({ location, onClose }) {
         const newScore = totalScore + selectedQuestion.points;
         setTotalScore(newScore); // Update local total score
         await updateTotalScore(newScore); // Update in Supabase
+  
+        // Insert into team_progress table when the question is solved
+        const solvedAt = new Date().toISOString();
+        const { error: insertError } = await supabase
+          .from("team_progress")
+          .insert([
+            {
+              team_id: userId, // Replace with the actual team_id
+              question_id: selectedQuestion.id,
+              is_solved: true,
+              solved_at: solvedAt,
+            },
+          ]);
+  
+        if (insertError) throw insertError;
       } else {
         setWrongAttempts((prev) => ({
           ...prev,
@@ -119,6 +134,7 @@ function LevelModal({ location, onClose }) {
   
     setUserAnswer("");
   };
+  
   
 
   return (
@@ -144,6 +160,7 @@ function LevelModal({ location, onClose }) {
           {!selectedQuestion ? (
             <Questions
               chapterId={id}
+              teamId={userId}
               onQuestionSelect={handleQuestionSelect}
               solvedQuestions={solvedQuestions}
             />

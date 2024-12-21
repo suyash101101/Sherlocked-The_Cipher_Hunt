@@ -1,29 +1,50 @@
 import React, { useState, useEffect } from "react";
 import supabase from "../config/supabaseClient";
 
-function Questions({ chapterId, onQuestionSelect, solvedQuestions }) {
+function Questions({ chapterId, onQuestionSelect, teamId }) {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const { data, error } = await supabase
+        const { data: questionsData, error: questionsError } = await supabase
           .from("questions")
-          .select("*")
+          .select("id, title, points")
           .eq("chapter_id", chapterId);
 
-        if (error) throw error;
-        setQuestions(data);
+        if (questionsError) throw questionsError;
+
+        // Fetch progress for the current team
+        const { data: progressData, error: progressError } = await supabase
+          .from("team_progress")
+          .select("question_id, is_solved")
+          .eq("team_id", teamId);
+
+        if (progressError) throw progressError;
+
+        // Map progress data to questions
+        const questionsWithProgress = questionsData.map((question) => {
+          const progress = progressData.find(
+            (progress) => progress.question_id === question.id
+          );
+
+          return {
+            ...question,
+            is_solved: progress?.is_solved || false,
+          };
+        });
+
+        setQuestions(questionsWithProgress);
       } catch (err) {
-        console.error("Error fetching questions:", err);
+        console.error("Error fetching questions and progress:", err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchQuestions();
-  }, [chapterId]);
+  }, [chapterId, teamId]);
 
   if (loading) {
     return <p>Loading questions...</p>;
@@ -35,15 +56,19 @@ function Questions({ chapterId, onQuestionSelect, solvedQuestions }) {
         <div key={question.id} className="cursor-pointer">
           <div
             className={`p-3 ${
-              solvedQuestions.has(question.id) ? "bg-green-500" : "bg-orange-800"
-            } text-white rounded-md hover:bg-yellow-500 hover:scale-105 transition-all`}
-            onClick={() => !solvedQuestions.has(question.id) && onQuestionSelect(question)}
+              question.is_solved ? "bg-green-500" : "bg-orange-800"
+            } text-white rounded-md hover:${
+              question.is_solved ? "" : "bg-yellow-500 hover:scale-105"
+            } transition-all`}
+            onClick={() =>
+              !question.is_solved && onQuestionSelect(question)
+            }
           >
             <h4>{question.title}</h4>
             <p>
               Points: {question.points}
-              {solvedQuestions.has(question.id) && (
-                <span className="ml-2 text-green-300">✓ Solved</span>
+              {question.is_solved && (
+                <span className="ml-2 text-green-400">✓ Solved</span>
               )}
             </p>
           </div>
