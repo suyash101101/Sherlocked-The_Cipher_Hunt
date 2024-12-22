@@ -7,6 +7,7 @@ export default function ScoreBoard() {
   const [error, setError] = useState(null); 
 
   // Fetch the total_score from the leaderboard table
+  const team_id = 1
   const fetchScore = async () => {
     try {
       setLoading(true);
@@ -15,7 +16,7 @@ export default function ScoreBoard() {
       const { data, error } = await supabase
         .from('leaderboard') // Table name
         .select('total_score') // Select the column
-        .eq('id', 1) // Filter by the specific row (e.g., id = 1)
+        .eq('id', team_id) // Filter by the specific row (e.g., id = 1)
 
       if (error) throw error;
 
