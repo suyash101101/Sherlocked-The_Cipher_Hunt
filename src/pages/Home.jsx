@@ -1,5 +1,6 @@
 import { supabase } from '../supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import './Home.css'; // Import the CSS file
 
 export default function Home() {
   const navigate = useNavigate();
@@ -20,9 +21,17 @@ export default function Home() {
   });
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Sign In / Sign Up</h1>
-      <button onClick={handleSignInWithGoogle}>Sign In with Google</button>
+    <div className="container">
+      <div className="content">
+        <h1>🔍 Welcome, Sherlock!</h1>
+        <p>Sign in to uncover the ciphers.</p>
+        <button
+          className="signin-button"
+          onClick={handleSignInWithGoogle}
+        >
+          Sign In with Google
+        </button>
+      </div>
     </div>
   );
 }
