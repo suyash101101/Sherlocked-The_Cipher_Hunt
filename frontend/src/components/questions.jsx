@@ -51,11 +51,11 @@ function Questions({ chapterId, onQuestionSelect, teamId }) {
   }
 
   return (
-    <div className="questions-container grid grid-cols-3 gap-2 max-h-96 overflow-y-auto p-4 rounded-lg">
+    <div className="questions-container grid bg-black lg:grid-cols-4 grid-cols-3 lg:gap-2 gap-1 max-h-96 overflow-y-auto mt-2 rounded-lg">
       {questions.map((question) => (
         <div key={question.id} className="cursor-pointer">
           <div
-            className={`p-3 ${
+            className={`md:p-3 p-2 ${
               question.is_solved ? "bg-green-500" : "bg-orange-800"
             } text-white rounded-md hover:${
               question.is_solved ? "" : "bg-yellow-500 hover:scale-105"
@@ -64,11 +64,11 @@ function Questions({ chapterId, onQuestionSelect, teamId }) {
               !question.is_solved && onQuestionSelect(question)
             }
           >
-            <h4>{question.title}</h4>
-            <p>
+            <h4 className="font-bold lg:text-lg md:text-sm text-xs">{question.title}</h4>
+            <p className="lg:text-sm text-xs">
               Points: {question.points}
               {question.is_solved && (
-                <span className="ml-2 text-green-400">✓ Solved</span>
+                <span className="ml-2 text-xs text-green-300">✓ Solved</span>
               )}
             </p>
           </div>

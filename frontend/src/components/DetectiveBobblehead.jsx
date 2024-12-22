@@ -10,7 +10,7 @@ const DetectiveBobblehead = ({ level, islands }) => {
     >
       <div
         className="w-20 h-20 bg-contain bg-no-repeat bg-center animate-bounce filter drop-shadow-lg"
-        style={{ backgroundImage: "url('/detective-bobblehead.png')" }}
+        style={{ backgroundImage: "url('/lock.png')" }}
       />
     </div>
   );

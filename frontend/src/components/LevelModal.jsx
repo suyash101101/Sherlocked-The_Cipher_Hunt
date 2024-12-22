@@ -68,6 +68,15 @@ function LevelModal({ location, onClose }) {
     fetchTotalScore();
   }, []);
 
+  useEffect(() => {
+    // Disable scrolling on the body when the modal is open
+    document.body.style.overflowY = "hidden";
+    return () => {
+      // Re-enable scrolling on the body when the modal is closed
+      document.body.style.overflowY = "auto";
+    };
+  }, []);
+
   const handleQuestionSelect = (question) => {
     setSelectedQuestion(question);
   };
@@ -153,7 +162,7 @@ function LevelModal({ location, onClose }) {
         </button>
 
         <div className="flex flex-col items-center lg:mt-64 md:mt-40 sm:mt-28 mt-24">
-          <h2 className="md:text-4xl text-xl font-extrabold text-orange-950">
+          <h2 className="lg:text-4xl md:text-2xl text-xl font-extrabold text-orange-950">
             {selectedQuestion ? selectedQuestion.title : chapterName || "Loading..."}
           </h2>
 
@@ -165,8 +174,8 @@ function LevelModal({ location, onClose }) {
               solvedQuestions={solvedQuestions}
             />
           ) : (
-            <div className="p-6 bg-orange-950 text-white rounded-lg w-[70%] text-center">
-              <p className="mb-4">{selectedQuestion.description}</p>
+            <div className="lg:p-6 py-3 px-5 bg-orange-950 text-white rounded-lg w-[70%] text-center">
+              <p className="mb-6 lg:max-h-[10em] sm:max-h-[4em] max-h-[2em] overflow-y-scroll md:text-base text-xs">{selectedQuestion.description}</p>
               {solvedQuestions.has(selectedQuestion.id) ? (
                 <p className="text-green-500 font-bold">Correct Answer!</p>
               ) : wrongAttempts[selectedQuestion.id] >= MAX_ATTEMPTS ? (
@@ -178,23 +187,24 @@ function LevelModal({ location, onClose }) {
                   <input
                     type="text"
                     placeholder="Type your answer here..."
-                    className="p-2 rounded border w-3/4 text-gray-900"
+                    className="lg:p-2 p-1 rounded border w-3/4 sm:text-base text-xs text-gray-900"
                     value={userAnswer}
                     onChange={(e) => setUserAnswer(e.target.value)}
+                    disabled={solvedQuestions.has(selectedQuestion.id)}
                   />
                   <button
                     onClick={handleAnswerSubmit}
-                    className="ml-2 px-4 py-2 bg-yellow-500 text-black rounded hover:bg-yellow-600"
+                    className="sm:ml-2 ml-1 px-4 sm:py-2 py-1 lg:text-base text-xs bg-yellow-500 text-black rounded hover:bg-yellow-600"
                   >
                     Submit
                   </button>
-                  <p className="text-red-500 mt-2">
+                  <p className="text-red-500 mt-2 lg:text-base text-sm">
                     Wrong Attempts: {wrongAttempts[selectedQuestion.id] || 0}/{MAX_ATTEMPTS}
                   </p>
                 </>
               )}
               <button
-                className="text-yellow-500 hover:text-yellow-300 mt-6"
+                className="text-yellow-500 hover:text-yellow-300 text-xs mt-2"
                 onClick={handleBackClick}
               >
                 &lt; Back to Questions
@@ -202,9 +212,9 @@ function LevelModal({ location, onClose }) {
             </div>
           )}
 
-          <div className="lg:mt-0 mt-[-1em] text-orange-950 lg:text-2xl text-sm font-bold">
+          {/* <div className="lg:mt-0 mt-[-1em] text-orange-950 lg:text-2xl text-sm font-bold">
             Total Score: {totalScore}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

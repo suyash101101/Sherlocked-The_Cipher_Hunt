@@ -4,6 +4,7 @@ import FloatingIsland from '../components/FloatingIsland';
 import ScoreBoard from '../components/ScoreBoard';
 import ConnectingPaths from '../components/ConnectingPaths';
 import LevelModal from '../components/LevelModal';
+import DetectiveBobblehead from '../components/DetectiveBobblehead';
 
 const islands = [
   { id: 1, name: "Baker Street", x: 5, y: 10 },
@@ -13,7 +14,7 @@ const islands = [
   { id: 5, name: "Buckingham Palace", x: 70, y: 22 },
 ];
 
-const unlockThresholds = [0, 100, 200, 300, 400]; // Example score thresholds for each level
+const unlockThresholds = [0, 300, 600, 800, 1000]; // Example score thresholds for each level
 
 export default function Level() {
   const [unlockedLevel, setUnlockedLevel] = useState(1); // Default to the first level
@@ -55,7 +56,7 @@ export default function Level() {
 
   return (
     <div className="sherlock-background bg-[url('https://static.vecteezy.com/system/resources/previews/036/105/309/non_2x/ai-generated-vintage-map-of-the-world-on-the-old-paper-background-sepia-tone-ai-generated-free-photo.jpg')] bg-no-repeat bg-cover bg-center object-cover relative h-[85em] lg:h-[90em]">
-      <div className="absolute inset-0 bg-black bg-opacity-50" />
+      <div className="absolute inset-0 bg-black bg-opacity-40" />
       
       {/* Pass the score to ScoreBoard */}
       <ScoreBoard score={score} />
@@ -76,6 +77,7 @@ export default function Level() {
             />
           );
         })}
+        {/* <DetectiveBobblehead level={unlockedLevel} islands={islands} /> */}
       </main>
 
       {/* Modal logic */}
