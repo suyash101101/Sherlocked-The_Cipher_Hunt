@@ -1,0 +1,53 @@
+/* Home.css */
+
+/* Reset default margins and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Include padding and border in width/height calculations */
+  }
+  
+  body, html {
+    width: 100%; /* Ensure body and html elements are 100% */
+    height: 100%; /* Ensure full height */
+  }
+  
+  /* Fullscreen container */
+  .container {
+    width: 100vw; /* Full width of the viewport */
+    height: 100vh; /* Full height of the viewport */
+    background-color: #3e1d0a; /* Swap to dark brown for background */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    font-family: 'Playfair Display', serif; /* Victorian-style font */
+    color: #e4dccf; /* Beige text */
+  }
+  
+  .content {
+    text-align: center; /* Center the text and button */
+  }
+  
+  .content h1 {
+    margin-bottom: 20px; /* Add spacing below the header */
+  }
+  
+  .content p {
+    margin-bottom: 20px; /* Add spacing below the paragraph */
+  }
+  
+  .signin-button {
+    background-color: #2c2c2c; /* Swap to dark gray for button */
+    color: #e4dccf; /* Beige text */
+    border: 2px solid #e4dccf;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .signin-button:hover {
+    background-color: #3b2c1f; /* Darker gray on hover */
+  }
+  
