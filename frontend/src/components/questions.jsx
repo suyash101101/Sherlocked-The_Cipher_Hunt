@@ -51,7 +51,7 @@ function Questions({ chapterId, onQuestionSelect, teamId }) {
   }
 
   return (
-    <div className="questions-container grid bg-black lg:grid-cols-4 grid-cols-3 lg:gap-2 gap-1 max-h-96 overflow-y-auto mt-2 rounded-lg">
+    <div className="questions-container grid  lg:grid-cols-4 grid-cols-3 lg:gap-2 gap-1 max-h-96 overflow-y-auto mt-2 rounded-lg">
       {questions.map((question) => (
         <div key={question.id} className="cursor-pointer">
           <div
