@@ -163,7 +163,7 @@ function LevelModal({ location, onClose }) {
 
         <div className="flex flex-col items-center lg:mt-64 md:mt-40 sm:mt-28 mt-24">
           <h2 className="lg:text-4xl md:text-2xl text-xl font-extrabold text-orange-950">
-            {selectedQuestion ? selectedQuestion.title : chapterName || "Loading..."}
+            {selectedQuestion ? selectedQuestion.title : chapterName || " "}
           </h2>
 
           {!selectedQuestion ? (

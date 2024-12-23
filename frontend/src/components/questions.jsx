@@ -47,7 +47,7 @@ function Questions({ chapterId, onQuestionSelect, teamId }) {
   }, [chapterId, teamId]);
 
   if (loading) {
-    return <p>Loading questions...</p>;
+    return <p> </p>;
   }
 
   return (
