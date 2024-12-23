@@ -12,7 +12,7 @@ module.exports = {
         accent: '#9E8C6E',
       },
       fontFamily: {
-        sherlock: ['"Times New Roman"', 'serif'], // Classic detective font
+        sherlock: ['Calibri', 'serif'], // Classic detective font
       },
     },
   },
