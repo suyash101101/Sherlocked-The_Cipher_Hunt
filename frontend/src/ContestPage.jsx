@@ -4,8 +4,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "./supabaseClient";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import bcrypt from "bcryptjs"; // Import bcrypt for password hashing
 import "./ContestPage.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ContestPage() {
   const [cookies, setCookie, removeCookie] = useCookies(["userId"]);
@@ -16,92 +17,84 @@ function ContestPage() {
   const location = useLocation();
 
   useEffect(() => {
+    // Scroll to the login section if URL contains '#login'
+    const { pathname, hash } = location;
+    if (pathname === "/" && hash === "#login") {
+      const loginElement = document.getElementById("login");
+      if (loginElement) {
+        loginElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
+  useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
 
-  const handleSignUp = async () => {
+  const handleSignIn = async () => {
     try {
       if (!email || !password || !teamName) {
-        alert("Please fill in all fields");
+        toast.error("Please fill in all fields");
         return;
       }
-
-      // Hash the password before storing
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      // Sign up the user using Supabase auth
-      const { error: signUpError } = await supabase.auth.signUp({
+      const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
-        password, // Still needed for Supabase auth
+        password,
       });
+      if (signInError) {
+        throw signInError;
+      }
 
-      if (signUpError) throw signUpError;
-
-      // Insert the user into the "users" table with the hashed password
-      const { error: insertError } = await supabase.from("users").insert([
-        {
-          email,
-          password_hash: hashedPassword,
-          team_name: teamName,
-        },
-      ]);
-
-      if (insertError) throw insertError;
-
-      alert("Signed up successfully!");
-
-      // Fetch the user ID for the session
-      const { data: userData, error: fetchError } = await supabase
+      const { data, error: fetchError } = await supabase
         .from("users")
-        .select("id")
+        .select("id, email, team_name")
         .eq("email", email)
         .single();
 
-      if (fetchError) throw fetchError;
+      if (fetchError || !data) {
+        throw fetchError || new Error("User not found");
+      }
 
-      // Set the user ID in cookies
-      setCookie("userId", userData.id, { path: "/" });
-
-      // Redirect to the questions page
+      setCookie("userId", data.id, { path: "/" });
       navigate("/questions");
     } catch (error) {
-      alert("Signup failed. Please try again.");
+      toast.error("Wrong Credentials. Sign Up Before Login");
       console.error(error);
     }
   };
 
-  const handleSignIn = async () => {
+  const handleSignUp = async () => {
     try {
-      if (!email || !password) {
-        alert("Please fill in all fields");
+      if (!email || !password || !teamName) {
+        toast.error("Please fill in all fields");
         return;
       }
 
-      // Fetch the user data from the "users" table
-      const { data: userData, error: fetchError } = await supabase
-        .from("users")
-        .select("id, password_hash")
-        .eq("email", email)
-        .single();
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
 
-      if (fetchError) throw fetchError;
+      if (signUpError) {
+        throw signUpError;
+      } else {
+        toast.success("Signed up successfully");
 
-      // Compare the provided password with the hashed password
-      const passwordMatch = await bcrypt.compare(password, userData.password_hash);
+        const { error: upsertError } = await supabase.from("users").upsert([
+          {
+            email,
+            password,
+            team_name: teamName,
+          },
+        ]);
 
-      if (!passwordMatch) {
-        alert("Invalid credentials. Please try again.");
-        return;
+        if (upsertError) {
+          throw upsertError;
+        }
       }
-
-      // Set the user ID in cookies
-      setCookie("userId", userData.id, { path: "/" });
-
-      // Redirect to the questions page
-      navigate("/questions");
     } catch (error) {
-      alert("Login failed. Please check your credentials.");
       console.error(error);
+      toast.error("User already exists or an error occurred");
     }
   };
 
@@ -111,17 +104,18 @@ function ContestPage() {
       if (error) throw error;
 
       removeCookie("userId");
-      alert("You have been logged out.");
-      window.location.reload();
+      toast.success("You have been logged out successfully.");
+      window.location.href = "/"; // Redirect to home or login page
     } catch (error) {
-      console.error(error);
+      console.error("Error signing out:", error);
+      toast.error("Failed to sign out. Please try again.");
     }
   };
 
   const renderContent = () => {
     if (cookies.userId) {
       return (
-        <div data-aos="fade-up" className="login-container">
+        <div data-aos="fade-up" className="login-container" style={{ width: "400px", margin: "0 auto" }}>
           <h1>Welcome to the Contest</h1>
           <h2>You are already logged in.</h2>
           <button onClick={handleSignOut}>Logout</button>
@@ -129,9 +123,9 @@ function ContestPage() {
       );
     } else {
       return (
-        <div data-aos="fade-up" className="login-container">
-          <h1>Let the Contest Begin</h1>
-          <form>
+        <div data-aos="fade-up" className="login-container" style={{ width: "400px", margin: "0 auto" }}>
+          <h1>Get in Sherlock!</h1>
+          <form id="login">
             <input
               type="text"
               placeholder="Team Name"
@@ -142,7 +136,7 @@ function ContestPage() {
             <br />
             <input
               type="email"
-              placeholder="Email"
+              placeholder="Team Leader Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -168,7 +162,12 @@ function ContestPage() {
     }
   };
 
-  return <>{renderContent()}</>;
+  return (
+    <>
+      {renderContent()}
+      <ToastContainer />
+    </>
+  );
 }
 
 export default ContestPage;
